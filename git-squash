@@ -1,0 +1,25 @@
+#!/bin/sh
+
+target=$1
+message=$2
+currentBranch=$(git symbolic-ref --short -q HEAD)
+
+git checkout $target
+git pull
+git checkout $currentBranch
+
+if [ ! -z "$1" ]
+then
+	if [ ! -z "$2" ]
+	then
+		git reset $(git merge-base $target $currentBranch)
+		git add .
+		git commit -m "$message"
+		git push --force-with-lease
+	else
+		echo "Commit message was not provided"
+	fi
+
+else
+	echo "Target branch not provided"
+fi
