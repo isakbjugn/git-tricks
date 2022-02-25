@@ -4,7 +4,7 @@ target=$1
 
 if [ ! -z "$1" ]
 then
-	echo "$target" >> .gitignore
+  echo "$target" >> .gitignore
   git filter-branch --index-filter "git rm -rf --cached --ignore-unmatch $target" HEAD
   git push --force
 
